@@ -40,6 +40,19 @@
             $(document).ready(function(){
                 var count = 0;
                 var postit_id = null;
+                var data_fetched = true;
+                
+                document.addEventListener("pause", function(){ // Enter Background mode, 进入后台模式
+                    console.log("Device Paused");
+                    setInterval(function(){
+                        // count += 10;
+                    }, 1000);
+                }, false);
+                
+                document.addEventListener("resume", function(){
+                    console.log("Device Resumed");
+                }, false);
+
                 console.log("App is ready");
                 $("#user_id").html(window.localStorage["user_id"]);
                 $("#status").val( window.localStorage["status"]);
@@ -47,9 +60,36 @@
                     $("#longitude").html("longitude2: " + position.coords.longitude);
                     $("#latitude").html("latitude2: " + position.coords.latitude);
                     $("#count").html(count);
-                    count++;
+                    console.log("count" + count);
                     navigator.geolocation.clearWatch(postit_id);
-                    
+                    if(data_fetched){
+                        data_fetched = false;
+                        $.ajax({
+                                url: "http://planetwalley.com/postit_test/upload_user_data.php",
+                                async: false,
+                                type: "POST",
+                                // 下面是发送的信息
+                                data:{longitude: position.coords.longitude,
+                                      latitude: position.coords.latitude, 
+                                      user_id: window.localStorage["user_id"]}
+                            }).done(function(data){
+                                if(data === "Success"){
+                                }
+                                else{
+                                    console.log("user failed to upload location");
+                                }
+                                data_fetched = true;
+                                
+                            }).fail(function(data){
+                                console.log("Failed");
+                                data_fetched = true;
+                            })                          
+                        
+                    }
+                    else{ // data not fetched, so we are fetching data now
+                        return;
+                    }
+                    count++;
                     //setTimeout(function(){
                     //    getLocation()
                     //}, 10000); // get location after 10 s
@@ -77,14 +117,22 @@
                                                                         geolocationError, 
                                                             {
                                                                enableHighAccuracy: true,
-                                                               //maximumAge: 5000, //这两个iOS下不管用
-                                                               //timeout: 5000
+                                                               maximumAge: 0, //这两个iOS下不管用
+                                                               timeout: 10000
                                                             });
                     } else {
                          alert("Geolocation is not supported.");
                     }            
                 }
-                setInterval(function(){getLocation()}, 5000); // update every 5 seconds
+                getLocation();
+                setInterval(function(){
+                        if(data_fetched){
+                            getLocation();
+                        }
+                        else{
+                            // do nothing
+                        }
+                    }, 10000); // update every 10 seconds
                 
             })             
         }                 

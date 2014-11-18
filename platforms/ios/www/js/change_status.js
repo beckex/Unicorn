@@ -17,6 +17,7 @@ $("#change_status_btn").click(function(){
             }
             else if (data === "Success"){
                 window.localStorage["status"] = status;
+                alert("Status updated");
             }
             else{
                 alert("Failed to change status\nPlease try later");

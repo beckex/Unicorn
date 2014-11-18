@@ -22,6 +22,7 @@
     if(mysqli_num_rows($result) == 1){
         // user exists
         $id = mysqli_fetch_array($result, MYSQLI_NUM);
+        $id = $id[0];
         $status = "You dont have status yet";
         
         // fetch user status
@@ -39,7 +40,7 @@
             $status = mysqli_fetch_array($result, MYSQLI_NUM);
             $status = $status[0]; // get status
         }
-        echo json_encode(array($id[0], $status));
+        echo json_encode(array($id, $status));
     }
     else{
         echo "wrong_username_or_password";
