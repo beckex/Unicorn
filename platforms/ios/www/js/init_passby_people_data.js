@@ -20,6 +20,7 @@ var initPassbyPeopleData = function(){
     var date = time.getDay();
     var date_string = year.toString() + month.toString() + date.toString(); 
     
+    passby_people[date_string] = {};
     // 发送请求到服务器
     $.ajax({
         url: "http://planetwalley.com/postit_test/init_passby.php",
@@ -30,15 +31,31 @@ var initPassbyPeopleData = function(){
               user_id: user_id,
               date: date_string}
     }).done(function(data){
+        console.log("Fetch passby data from server:");
+        console.log(data);
         if(data === "Failed"){
             console.log("Failed to post passby user data");
         }
         else{ // get data. 
-            console.log(data);
+            data = JSON.parse(data);
+            for(var i = 0; i < data.length; i++){
+                var passby_id = data[i][0];
+                var passby_username = data[i][1];
+                var passby_user_status = data[i][2];
+                passby_people[date_string][passby_id] = passby_user_status;
+                // add to list
+                // add to list
+                var content = "<h2>" + passby_username + "</h2>" + 
+                              "<p>" + passby_user_status + "</p>";
+                $("#passby_people_list").prepend(content);
+            }
+            // refresh listview
+            $('ul').listview('refresh');
         }
         return passby_people;
     }).fail(function(data){
         console.log("Failed to post passby user data");
         return passby_people;
-    })    
+    })
+    return passby_people;
 }

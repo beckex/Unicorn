@@ -20,7 +20,8 @@
     }
     else{
         $return_v = array() ; // [passby_id, username, status]
-        while($o = mysqli_fetch_array($result, MYSQLI_NUM)){
+        $r = $result;
+        while($o = mysqli_fetch_array($r, MYSQLI_NUM)){
             $passby_id = $o[0];
             
             // fetch passby user status 

@@ -45,8 +45,8 @@ var initPassbyPeopleData = function(){
                 passby_people[date_string][passby_id] = passby_user_status;
                 // add to list
                 // add to list
-                var content = "<h2>" + passby_username + "</h2>" + 
-                              "<p>" + passby_user_status + "</p>";
+                var content = "<li><h2>" + passby_username + "</h2>" + 
+                              "<p>" + passby_user_status + "</p></li>";
                 $("#passby_people_list").prepend(content);
             }
             // refresh listview
@@ -56,5 +56,6 @@ var initPassbyPeopleData = function(){
     }).fail(function(data){
         console.log("Failed to post passby user data");
         return passby_people;
-    })    
+    })
+    return passby_people;
 }

@@ -19,7 +19,7 @@
         
         <script src="cordova.js" type="text/javascript"></script> 
         <script src="js/index.js" type="text/javascript"></script> 
-        
+        <script src="js/init_passby_people_data.js"></script>
         <title>Unicorn Project</title>
     </head>
     
@@ -82,9 +82,7 @@
                  }
                  *
                  */
-                var passby_people = {
-                                                    
-                                    }   
+                var passby_people = initPassbyPeopleData();  
                 // TODO: Init passby_people data. read from database
                                                     
                 document.addEventListener("pause", function(){ // Enter Background mode, 进入后台模式

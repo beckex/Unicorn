@@ -11,6 +11,18 @@
         echo "Failed";
         exit;
     }
+
+    // check exists
+    $query_content = "SELECT * FROM passby WHERE user_id='$user_id' AND passby_id='$passby_id' AND date='$date';";
+    $result = mysqli_query($cons, $query_content);
+    if(!$result){
+        echo "Failed";
+        exit;
+    }
+    if(mysqli_num_rows($result) != 0){ // already exist.
+        echo "Failed"; 
+        exit;
+    }
     
     // insert into passby table
     $query_content = "INSERT INTO passby VALUES('$user_id', '$passby_id', '$date');";

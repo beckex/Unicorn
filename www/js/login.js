@@ -25,6 +25,7 @@ $("#user_login_btn").click(function(){
             }
             data = JSON.parse(data);
             console.log(data);
+            window.localStorage["username"] = username;
             window.localStorage["user_id"] = data[0]; // data[0] is the user_id
             window.localStorage["status"] = data[1]; // data[1] is status
             window.location.href = ("../app.html"); // begin to run app
