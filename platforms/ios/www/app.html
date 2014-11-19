@@ -7,7 +7,7 @@
         <meta content=
         "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
         name="viewport">
-        <!-- <link href="css/index.css" rel="stylesheet" type="text/css"> -->
+        <link href="css/index.css" rel="stylesheet" type="text/css">
         <link href=
         "http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" rel=
         "stylesheet">
@@ -24,26 +24,72 @@
     </head>
     
     <body>
-        Welcome here;
-        <p id="user_id"> Hello There</p>
-        <p id="longitude">Longitude</p>
-        <p id="latitude">Latitude</p>
-        <p id="count">0</p>
-        
-        <input data-clear-btn="true" id="status" name="status" type=
-            "text">
-        <button id="change_status_btn">Change Status</button>
+        <div data-role="page">
+            <div data-role="main" class="ui-content">
+                <br><br>
+                <p id="user_id" style="display:none;"> Hello There</p>
+                <p id="longitude" style="display:none;">Longitude</p>
+                <p id="latitude" style="display:none;">Latitude</p>
+                <p id="count" style="display:none;">0</p>
+
+                <input data-clear-btn="true" id="status" name="status" type=
+                    "text">
+                <button id="change_status_btn">Change Status</button>
+                <h3> Below is the passby information </h3>
+                <ul data-role="listview" data-inset="true" id="passby_people_list">
+                            <!-- Show passby user infomation
+                                - username. 
+                                - status.  
+                                -->
+                </ul>
+            </div>
+        </div>
     </body>
     <script>
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady(){
             $(document).ready(function(){
+                
+                var calculateRegion = function(degree){
+                    return parseInt(degree*100);
+                }
+                var calculateDistance = function(lon1, lat1, lon2, lat2){
+                    var R = 6371 * 1000; // m
+                    var φ1 = lat1/180 * Math.PI;
+                    var φ2 = lat2/180 * Math.PI
+                    var Δφ = (lat2-lat1)/180 * Math.PI;
+                    var Δλ = (lon2-lon1)/180 * Math.PI;
+
+                    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                            Math.cos(φ1) * Math.cos(φ2) *
+                            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+                    var d = R * c;
+                    return d;
+                }
+                
                 var count = 0;
                 var postit_id = null;
                 var data_fetched = true;
-                
+                /*
+                 *  passby_people data 
+                 * passby_people = {
+                    "20141102": {user_id0: "Hello THere",
+                                 user_id1: "Fuck me"}
+                    "20141103": {user_id0: "I am handsome" 
+                                 user_id1: "Yes I know"}
+                 }
+                 *
+                 */
+                var passby_people = {
+                                                    
+                                    }   
+                // TODO: Init passby_people data. read from database
+                                                    
                 document.addEventListener("pause", function(){ // Enter Background mode, 进入后台模式
                     console.log("Device Paused");
+                    console.log("distance: " + calculateDistance(80, 80, 80, 80));
                     setInterval(function(){
                         // count += 10;
                     }, 1000);
@@ -57,6 +103,8 @@
                 $("#user_id").html(window.localStorage["user_id"]);
                 $("#status").val( window.localStorage["status"]);
                 var showPosition = function(position){
+                    var longitude = position.coords.longitude;
+                    var latitude = position.coords.latitude;
                     $("#longitude").html("longitude2: " + position.coords.longitude);
                     $("#latitude").html("latitude2: " + position.coords.latitude);
                     $("#count").html(count);
@@ -65,18 +113,75 @@
                     if(data_fetched){
                         data_fetched = false;
                         $.ajax({
-                                url: "http://planetwalley.com/postit_test/upload_user_data.php",
+                                url: "http://planetwalley.com/postit_test/upload_user_location.php",
                                 async: false,
                                 type: "POST",
                                 // 下面是发送的信息
-                                data:{longitude: position.coords.longitude,
-                                      latitude: position.coords.latitude, 
-                                      user_id: window.localStorage["user_id"]}
+                                data:{longitude: longitude,
+                                      latitude: latitude, 
+                                      user_id: window.localStorage["user_id"],
+                                      region_lon: calculateRegion(longitude),
+                                      region_lat: calculateRegion(latitude) 
+                                     }
                             }).done(function(data){
                                 if(data === "Success"){
                                 }
-                                else{
+                                else if (data === "Failed"){
                                     console.log("user failed to upload location");
+                                }
+                                else{ // get other uses' location
+                                    // calculate distance
+                                    data = JSON.parse(data);
+                                    var time = new Date();
+                                    var year = time.getFullYear();
+                                    var month = time.getMonth();
+                                    var date = time.getDay();
+                                    var date_string = year.toString() + month.toString() + date.toString(); 
+                                    if(!(date_string in passby_people)){ // create new data 
+                                        passby_people[date_string] = {};
+                                    }
+                                    for(var i = 0; i < data.length; i++){
+                                        var id = data[i][0];
+                                        if(id in passby_people[date_string]) continue; // already exist
+                                        var distance = calculateDistance(longitude, latitude, parseFloat(data[i][1]), parseFloat(data[i][2]));
+                                        console.log("User: " + data[i][0] + " distance: " + distance + "m");
+                                        if(distance <= 20){
+                                            console.log("year: " + year + " month: " + month + " date: " + date);
+                                            console.log("Less than 20  " + date_string);
+                                            // post that user to server
+                                            // which will return passby user status
+                                            $.ajax({
+                                                url: "http://planetwalley.com/postit_test/passby.php",
+                                                async: false,
+                                                type: "POST",
+                                                // 下面是发送的信息
+                                                data:{
+                                                      user_id: window.localStorage["user_id"],
+                                                      passby_id: id,
+                                                      date: date_string}
+                                            }).done(function(data){
+                                                if(data === "Failed"){
+                                                    console.log("Failed to post passby user data");
+                                                }
+                                                else{ // get data. 
+                                                    data = JSON.parse(data);
+                                                    var passby_user_status = data[0];
+                                                    var passby_username = data[1];
+                                                    console.log("get passby data: " + data[0]);
+                                                    passby_people[date_string][id] = passby_user_status;
+                                                    
+                                                    // add to list
+                                                    var content = "<h2>" + passby_username + "</h2>" + 
+                                                                  "<p>" + passby_user_status + "</p>";
+                                                    $("#passby_people_list").prepend(content);
+                                                }
+                                            }).fail(function(data){
+                                                console.log("Failed to post passby user data");
+                                            })
+                                        }
+                                    }    
+                                    // refresh listview
+                                    $('ul').listview('refresh');
                                 }
                                 data_fetched = true;
                                 
@@ -117,8 +222,8 @@
                                                                         geolocationError, 
                                                             {
                                                                enableHighAccuracy: true,
-                                                               maximumAge: 0, //这两个iOS下不管用
-                                                               timeout: 10000
+                                                               //maximumAge: 0, //这两个iOS下不管用
+                                                               //timeout: 10000
                                                             });
                     } else {
                          alert("Geolocation is not supported.");
@@ -126,8 +231,8 @@
                 }
                 getLocation();
                 setInterval(function(){
-                        if(data_fetched){
-                            getLocation();
+                        if(data_fetched === true){
+                            getLocation(); // update location
                         }
                         else{
                             // do nothing
