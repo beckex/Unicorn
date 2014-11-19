@@ -71,5 +71,4 @@
     
     <preference name="KeepRunning" value="true"/>
     <preference name="exit-on-suspend" value="false" />
-    
 </widget>

@@ -13,9 +13,7 @@
         "stylesheet">
         <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
         <script src=
-        "http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-        
+        "http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>        
         
         <script src="cordova.js" type="text/javascript"></script> 
         <script src="js/index.js" type="text/javascript"></script> 
@@ -24,21 +22,13 @@
     </head>
     
     <body>
-        <div data-role="page">
-            <div data-role="header">
-                <br>
-                <h1 id="username"></h1>
-            </div>
+        <div data-role="page" id="passby_page">
             <div data-role="main" class="ui-content">
-                <br><br>
                 <p id="user_id" style="display:none;"> Hello There</p>
                 <p id="longitude" style="display:none;">Longitude</p>
                 <p id="latitude" style="display:none;">Latitude</p>
                 <p id="count" style="display:none;">0</p>
-                <input data-clear-btn="true" id="status" name="status" type=
-                    "text">
-                <button id="change_status_btn">Change Status</button>
-                <h3> Below is the passby information </h3>
+                <h3> Hello! <a href="#profile_page" data-transition="slide" id="username" style="text-decoration: none; font-size:70;"></a> </h3>
                 <ul data-role="listview" data-inset="true" id="passby_people_list">
                             <!-- Show passby user infomation
                                 - username. 
@@ -47,12 +37,33 @@
                 </ul>
             </div>
         </div>
+        <!-- 下面的是显示用户profile -->
+        <div data-role="page" id="profile_page">
+            <div data-role="header">
+                <h1 id="username2">username here</h1>
+            </div>
+            <div data-role="main" class="ui-content">
+                <h1> Profile Picture Here </h1>
+                <br><br>
+                <a id="status" href="#change_status"  style="text-decoration: none" data-transition="flip">This is my status</a>
+                <br><br>
+                <a style="text-decoration: none;" href="#passby_page" data-transition="slide" data-direction="reverse"> Back </a>
+            </div>
+        </div>
+        <div id="change_status" data-role="page">
+            <div data-role="main" class="ui-content">    
+                <h1>Change status here</h1>
+                <br>
+                <textarea id="status_input" placeholder="Enter you status here" maxlength="128"></textarea><br>                 <br>
+                <a id="change_status_btn">Change Status</a><br><br>
+                <a href="#profile_page" style="text-decoration: none" data-transition="flip" data-direction="reverse">Back</a>
+            </div>
+        </div>
     </body>
     <script>
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady(){
             $(document).ready(function(){
-                
                 var calculateRegion = function(degree){
                     return parseInt(degree*100);
                 }
@@ -102,8 +113,9 @@
 
                 console.log("App is ready");
                 $("#user_id").html(window.localStorage["user_id"]);
-                $("#status").val( window.localStorage["status"]);
                 $("#username").html(window.localStorage["username"]);
+                $("#username2").html(window.localStorage["username"]);
+                $("#status").html(window.localStorage["status"]);
                 var showPosition = function(position){
                     var longitude = position.coords.longitude;
                     var latitude = position.coords.latitude;
@@ -177,7 +189,7 @@
                                                     passby_people[date_string][id] = passby_user_status;
                                                     
                                                     // add to list
-                                                    var content = "<li><h2>" + passby_username + "</h2>" + 
+                                                    var content = "<li><h2>擦肩:" + passby_username + "</h2>" + 
                                                                   "<p>" + passby_user_status + "</p></li>";
                                                     $("#passby_people_list").prepend(content);
                                                 }

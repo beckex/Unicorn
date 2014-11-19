@@ -25,13 +25,14 @@
     
     <body>
         <div data-role="page">
+            <div data-role="header">
+                <h1><a href="profile.html" id="username"></a></h1>
+            </div>
             <div data-role="main" class="ui-content">
-                <br><br>
                 <p id="user_id" style="display:none;"> Hello There</p>
                 <p id="longitude" style="display:none;">Longitude</p>
                 <p id="latitude" style="display:none;">Latitude</p>
                 <p id="count" style="display:none;">0</p>
-
                 <input data-clear-btn="true" id="status" name="status" type=
                     "text">
                 <button id="change_status_btn">Change Status</button>
@@ -49,7 +50,6 @@
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady(){
             $(document).ready(function(){
-                
                 var calculateRegion = function(degree){
                     return parseInt(degree*100);
                 }
@@ -100,6 +100,7 @@
                 console.log("App is ready");
                 $("#user_id").html(window.localStorage["user_id"]);
                 $("#status").val( window.localStorage["status"]);
+                $("#username").html(window.localStorage["username"]);
                 var showPosition = function(position){
                     var longitude = position.coords.longitude;
                     var latitude = position.coords.latitude;
@@ -128,6 +129,10 @@
                                     console.log("user failed to upload location");
                                 }
                                 else{ // get other uses' location
+                                    /*
+                                    * TODO: passby people change status
+                                    *       so need to update their status as well
+                                    */
                                     // calculate distance
                                     data = JSON.parse(data);
                                     var time = new Date();
@@ -169,8 +174,8 @@
                                                     passby_people[date_string][id] = passby_user_status;
                                                     
                                                     // add to list
-                                                    var content = "<h2>" + passby_username + "</h2>" + 
-                                                                  "<p>" + passby_user_status + "</p>";
+                                                    var content = "<li><h2>擦肩:" + passby_username + "</h2>" + 
+                                                                  "<p>" + passby_user_status + "</p></li>";
                                                     $("#passby_people_list").prepend(content);
                                                 }
                                             }).fail(function(data){

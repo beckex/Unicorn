@@ -45,8 +45,8 @@ var initPassbyPeopleData = function(){
                 passby_people[date_string][passby_id] = passby_user_status;
                 // add to list
                 // add to list
-                var content = "<h2>" + passby_username + "</h2>" + 
-                              "<p>" + passby_user_status + "</p>";
+                var content = "<li><h2>擦肩:" + passby_username + "</h2>" + 
+                              "<p>" + passby_user_status + "</p></li>";
                 $("#passby_people_list").prepend(content);
             }
             // refresh listview
