@@ -28,7 +28,7 @@
                 <p id="longitude" style="display:none;">Longitude</p>
                 <p id="latitude" style="display:none;">Latitude</p>
                 <p id="count" style="display:none;">0</p>
-                <h3> Hello! <a href="#profile_page" data-transition="slide" id="username" style="text-decoration: none; font-size:70;"></a> </h3>
+                <a href="#profile_page" data-transition="slide" id="username" style="text-decoration: none; font-size:70;"></a>
                 <ul data-role="listview" data-inset="true" id="passby_people_list">
                             <!-- Show passby user infomation
                                 - username. 
@@ -39,9 +39,6 @@
         </div>
         <!-- 下面的是显示用户profile -->
         <div data-role="page" id="profile_page">
-            <div data-role="header">
-                <h1 id="username2">username here</h1>
-            </div>
             <div data-role="main" class="ui-content">
                 <h1> Profile Picture Here </h1>
                 <br><br>
@@ -114,7 +111,6 @@
                 console.log("App is ready");
                 $("#user_id").html(window.localStorage["user_id"]);
                 $("#username").html(window.localStorage["username"]);
-                $("#username2").html(window.localStorage["username"]);
                 $("#status").html(window.localStorage["status"]);
                 var showPosition = function(position){
                     var longitude = position.coords.longitude;
