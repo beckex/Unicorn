@@ -32,5 +32,4 @@ $("#user_signup_btn").click(function(){
         }).fail(function(data){
             alert("Failed");
             console.log(data);
-        })}
-                           )
+        })})

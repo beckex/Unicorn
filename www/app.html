@@ -1,89 +1,94 @@
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta content="telephone=no" name="format-detection">
-        <meta content="no" name="msapplication-tap-highlight">
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta content=
-        "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
-        name="viewport">
-        <link href="css/index.css" rel="stylesheet" type="text/css">
-        <link href=
-        "http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" rel=
-        "stylesheet">
-        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src=
-        "http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>        
-        
-        <script src="cordova.js" type="text/javascript"></script> 
-        <script src="js/index.js" type="text/javascript"></script> 
-        <script src="js/init_passby_people_data.js"></script>
-        <title>Unicorn Project</title>
-    </head>
-    
-    <body>
-        <div data-role="page" id="passby_page">
-            <div data-role="main" class="ui-content">
-                <p id="user_id" style="display:none;"> Hello There</p>
-                <p id="longitude" style="display:none;">Longitude</p>
-                <p id="latitude" style="display:none;">Latitude</p>
-                <p id="count" style="display:none;">0</p>
-                <a href="#profile_page" data-transition="slide" id="username" style="text-decoration: none; font-size:70;"></a>
-                <ul data-role="listview" data-inset="true" id="passby_people_list">
-                            <!-- Show passby user infomation
+
+<head>
+    <meta charset="utf-8">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="no" name="msapplication-tap-highlight">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" name="viewport">
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+    <link href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+
+    <script src="cordova.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/init_passby_people_data.js"></script>
+    <title>Unicorn Project</title>
+</head>
+
+<body>
+    <div data-role="page" id="passby_page">
+        <div data-role="main" class="ui-content">
+            <p id="user_id" style="display:none;">Hello There</p>
+            <p id="longitude" style="display:none;">Longitude</p>
+            <p id="latitude" style="display:none;">Latitude</p>
+            <p id="count" style="display:none;">0</p>
+            <a href="#profile_page" data-transition="slide" id="username" style="text-decoration: none; font-size:70;"></a>
+            <ul data-role="listview" data-inset="true" id="passby_people_list">
+                <!-- Show passby user infomation
                                 - username. 
                                 - status.  
                                 -->
-                </ul>
-            </div>
+            </ul>
         </div>
-        <!-- 下面的是显示用户profile -->
-        <div data-role="page" id="profile_page">
-            <div data-role="main" class="ui-content">
-                <h1> Profile Picture Here </h1>
-                <br><br>
-                <a id="status" href="#change_status"  style="text-decoration: none" data-transition="flip">This is my status</a>
-                <br><br>
-                <a style="text-decoration: none;" href="#passby_page" data-transition="slide" data-direction="reverse"> Back </a>
-            </div>
+    </div>
+    <!-- 下面的是显示用户profile -->
+    <div data-role="page" id="profile_page">
+        <div data-role="main" class="ui-content">
+            <h1> Profile Picture Here </h1>
+            <br>
+            <br>
+            <a id="status" href="#change_status" style="text-decoration: none" data-transition="flip">This is my status</a>
+            <br>
+            <br>
+            <a style="text-decoration: none;" href="#passby_page" data-transition="slide" data-direction="reverse"> Back </a>
         </div>
-        <div id="change_status" data-role="page">
-            <div data-role="main" class="ui-content">    
-                <h1>Change status here</h1>
-                <br>
-                <textarea id="status_input" placeholder="Enter you status here" maxlength="128"></textarea><br>                 <br>
-                <a id="change_status_btn">Change Status</a><br><br>
-                <a href="#profile_page" style="text-decoration: none" data-transition="flip" data-direction="reverse">Back</a>
-            </div>
+    </div>
+    <div id="change_status" data-role="page">
+        <div data-role="main" class="ui-content">
+            <h1>Change status here</h1>
+            <br>
+            <textarea id="status_input" placeholder="Enter you status here" maxlength="128"></textarea>
+            <br>
+            <br>
+            <a id="change_status_btn">Change Status</a>
+            <br>
+            <br>
+            <a href="#profile_page" style="text-decoration: none" data-transition="flip" data-direction="reverse">Back</a>
         </div>
-    </body>
-    <script>
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady(){
-            $(document).ready(function(){
-                var calculateRegion = function(degree){
-                    return parseInt(degree*100);
-                }
-                var calculateDistance = function(lon1, lat1, lon2, lat2){
-                    var R = 6371 * 1000; // m
-                    var φ1 = lat1/180 * Math.PI;
-                    var φ2 = lat2/180 * Math.PI
-                    var Δφ = (lat2-lat1)/180 * Math.PI;
-                    var Δλ = (lon2-lon1)/180 * Math.PI;
+    </div>
+</body>
+<script>
+    var LATITUDE = null;
+    var LONGITUDE = null;
+    console.log("Enter Here");
+    document.addEventListener("deviceready", onDeviceReady, false);
 
-                    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-                            Math.cos(φ1) * Math.cos(φ2) *
-                            Math.sin(Δλ/2) * Math.sin(Δλ/2);
-                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    function onDeviceReady() {
+        $(document).ready(function() {
+            var calculateRegion = function(degree) {
+                return parseInt(degree * 100);
+            }
+            var calculateDistance = function(lon1, lat1, lon2, lat2) {
+                var R = 6371 * 1000; // m
+                varφ 1 = lat1 / 180 * Math.PI;
+                varφ 2 = lat2 / 180 * Math.PI
+                varΔφ = (lat2 - lat1) / 180 * Math.PI;
+                varΔλ = (lon2 - lon1) / 180 * Math.PI;
 
-                    var d = R * c;
-                    return d;
-                }
-                
-                var count = 0;
-                var postit_id = null;
-                var data_fetched = true;
-                /*
+                var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ/2) * Math.sin(Δλ/2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+                var d = R * c;
+                return d;
+            }
+
+            var count = 0;
+            var data_fetched = true;
+            /*
                  *  passby_people data 
                  * passby_people = {
                     "20141102": {user_id0: "Hello THere",
@@ -93,168 +98,160 @@
                  }
                  *
                  */
-                var passby_people = initPassbyPeopleData();  
-                // TODO: Init passby_people data. read from database
-                                                    
-                document.addEventListener("pause", function(){ // Enter Background mode, 进入后台模式
-                    console.log("Device Paused");
-                    console.log("distance: " + calculateDistance(80, 80, 80, 80));
-                    setInterval(function(){
-                        // count += 10;
-                    }, 1000);
-                }, false);
-                
-                document.addEventListener("resume", function(){
-                    console.log("Device Resumed");
-                }, false);
+            var passby_people = initPassbyPeopleData();
+            // TODO: Init passby_people data. read from database
 
-                console.log("App is ready");
-                $("#user_id").html(window.localStorage["user_id"]);
-                $("#username").html(window.localStorage["username"]);
-                $("#status").html(window.localStorage["status"]);
-                var showPosition = function(position){
-                    var longitude = position.coords.longitude;
-                    var latitude = position.coords.latitude;
-                    $("#longitude").html("longitude2: " + position.coords.longitude);
-                    $("#latitude").html("latitude2: " + position.coords.latitude);
-                    $("#count").html(count);
-                    console.log("count" + count);
-                    navigator.geolocation.clearWatch(postit_id);
-                    if(data_fetched){
-                        data_fetched = false;
-                        $.ajax({
-                                url: "http://planetwalley.com/postit_test/upload_user_location.php",
-                                async: false,
-                                type: "POST",
-                                // 下面是发送的信息
-                                data:{longitude: longitude,
-                                      latitude: latitude, 
-                                      user_id: window.localStorage["user_id"],
-                                      region_lon: calculateRegion(longitude),
-                                      region_lat: calculateRegion(latitude) 
-                                     }
-                            }).done(function(data){
-                                if(data === "Success"){
-                                }
-                                else if (data === "Failed"){
-                                    console.log("user failed to upload location");
-                                }
-                                else{ // get other uses' location
-                                    /*
-                                    * TODO: passby people change status
-                                    *       so need to update their status as well
-                                    */
-                                    // calculate distance
-                                    data = JSON.parse(data);
-                                    var time = new Date();
-                                    var year = time.getFullYear();
-                                    var month = time.getMonth();
-                                    var date = time.getDay();
-                                    var date_string = year.toString() + month.toString() + date.toString(); 
-                                    if(!(date_string in passby_people)){ // create new data 
-                                        passby_people[date_string] = {};
-                                    }
-                                    for(var i = 0; i < data.length; i++){
-                                        var id = data[i][0];
-                                        if(id in passby_people[date_string]) continue; // already exist
-                                        var distance = calculateDistance(longitude, latitude, parseFloat(data[i][1]), parseFloat(data[i][2]));
-                                        console.log("User: " + data[i][0] + " distance: " + distance + "m");
-                                        if(distance <= 20){
-                                            console.log("year: " + year + " month: " + month + " date: " + date);
-                                            console.log("Less than 20  " + date_string);
-                                            // post that user to server
-                                            // which will return passby user status
-                                            $.ajax({
-                                                url: "http://planetwalley.com/postit_test/passby.php",
-                                                async: false,
-                                                type: "POST",
-                                                // 下面是发送的信息
-                                                data:{
-                                                      user_id: window.localStorage["user_id"],
-                                                      passby_id: id,
-                                                      date: date_string}
-                                            }).done(function(data){
-                                                if(data === "Failed"){
-                                                    console.log("Failed to post passby user data");
-                                                }
-                                                else{ // get data. 
-                                                    data = JSON.parse(data);
-                                                    var passby_user_status = data[0];
-                                                    var passby_username = data[1];
-                                                    console.log("get passby data: " + data[0]);
-                                                    passby_people[date_string][id] = passby_user_status;
-                                                    
-                                                    // add to list
-                                                    var content = "<li><h2>擦肩:" + passby_username + "</h2>" + 
-                                                                  "<p>" + passby_user_status + "</p></li>";
-                                                    $("#passby_people_list").prepend(content);
-                                                }
-                                            }).fail(function(data){
-                                                console.log("Failed to post passby user data");
-                                            })
+            document.addEventListener("pause", function() { // Enter Background mode, 进入后台模式
+                console.log("Device Paused");
+                console.log("distance: " + calculateDistance(80, 80, 80, 80));
+                setInterval(function() {
+                    // count += 10;
+                }, 1000);
+            }, false);
+
+            document.addEventListener("resume", function() {
+                console.log("Device Resumed");
+            }, false);
+
+            console.log("App is ready");
+            $("#user_id").html(window.localStorage["user_id"]);
+            $("#username").html(window.localStorage["username"]);
+            $("#status").html(window.localStorage["status"]);
+            var showPosition = function(position) {
+                var longitude = position.coords.longitude;
+                LONGITUDE = longitude;
+                var latitude = position.coords.latitude;
+                LATITUDE = latitude;
+                $("#longitude").html("longitude2: " + position.coords.longitude);
+                $("#latitude").html("latitude2: " + position.coords.latitude);
+                //$("#count").html(count);
+                //console.log("count" + count);
+                navigator.geolocation.clearWatch(postit_id);
+                count++;
+            }
+            var geolocationError = function(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("User denied the request for Geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("The request to get user location timed out.");
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        alert("An unknown error occurred.");
+                        break;
+                }
+            }
+
+
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(showPosition,
+                    geolocationError, {
+                        enableHighAccuracy: true,
+                        maximumAge: 0, //这两个iOS下不管用
+                        timeout: 1000
+                    });
+            } else {
+                alert("Geolocation is not supported.");
+            }
+
+            setInterval(function() {
+                if (data_fetched) {
+                    data_fetched = false;
+                    if (LONGITUDE == null || LATITUDE == null) return;
+                    $.ajax({
+                        url: "http://planetwalley.com/postit_test/upload_user_location.php",
+                        //async: false,
+                        type: "POST",
+                        // 下面是发送的信息
+                        data: {
+                            longitude: longitude,
+                            latitude: latitude,
+                            user_id: window.localStorage["user_id"],
+                            region_lon: calculateRegion(longitude),
+                            region_lat: calculateRegion(latitude)
+                        }
+                    }).done(function(data) {
+                        if (data === "Failed") {
+                            console.log("user failed to upload location");
+                            data_fetched = true;
+                            return;
+                        } else { // get other uses' location
+                            /*
+                             * TODO: passby people change status
+                             *       so need to update their status as well
+                             */
+                            // calculate distance
+                            data = JSON.parse(data);
+                            var time = new Date();
+                            var year = time.getFullYear();
+                            var month = time.getMonth();
+                            var date = time.getDay();
+                            var date_string = year.toString() + month.toString() + date.toString();
+                            if (!(date_string in passby_people)) { // create new data 
+                                passby_people[date_string] = {};
+                            }
+                            console.log("Now check user: " + window.localStorage["username"] + " " + window.localStorage["user_id"]);
+                            for (var i = 0; i < data.length; i++) {
+                                var id = data[i][0];
+                                if (id in passby_people[date_string]) continue; // already exist
+                                var distance = calculateDistance(longitude, latitude, parseFloat(data[i][1]), parseFloat(data[i][2]));
+                                console.log("User: " + data[i][0] + " distance: " + distance + "m");
+                                if (distance <= 20) {
+                                    //console.log("year: " + year + " month: " + month + " date: " + date);
+                                    //console.log("Less than 20  " + date_string);
+                                    // post that user to server
+                                    // which will return passby user status
+                                    $.ajax({
+                                        url: "http://planetwalley.com/postit_test/passby.php",
+                                        //async: false,
+                                        type: "POST",
+                                        // 下面是发送的信息
+                                        data: {
+                                            user_id: window.localStorage["user_id"],
+                                            passby_id: id,
+                                            date: date_string
                                         }
-                                    }    
-                                    // refresh listview
-                                    $('ul').listview('refresh');
-                                }
-                                data_fetched = true;
-                                
-                            }).fail(function(data){
-                                console.log("Failed");
-                                data_fetched = true;
-                            })                          
-                        
-                    }
-                    else{ // data not fetched, so we are fetching data now
-                        return;
-                    }
-                    count++;
-                    //setTimeout(function(){
-                    //    getLocation()
-                    //}, 10000); // get location after 10 s
-                }
-                var geolocationError = function(error){
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            alert("User denied the request for Geolocation.");
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            alert("Location information is unavailable.");
-                            break;
-                        case error.TIMEOUT:
-                            alert("The request to get user location timed out.");
-                            break;
-                        case error.UNKNOWN_ERROR:
-                            alert("An unknown error occurred.");
-                            break;
-                    }
-                }
+                                    }).done(function(data) {
+                                        if (data === "Failed") {
+                                            console.log("Failed to post passby user data");
+                                        } else { // get data. 
+                                            data = JSON.parse(data);
+                                            var passby_user_status = data[0];
+                                            var passby_username = data[1];
+                                            console.log("get passby data: " + data[0]);
+                                            passby_people[date_string][id] = passby_user_status;
 
-                var getLocation = function(){
-                    if (navigator.geolocation) {
-                        postit_id = navigator.geolocation.watchPosition(showPosition,      
-                                                                        geolocationError, 
-                                                            {
-                                                               enableHighAccuracy: true,
-                                                               //maximumAge: 0, //这两个iOS下不管用
-                                                               //timeout: 10000
-                                                            });
-                    } else {
-                         alert("Geolocation is not supported.");
-                    }            
+                                            // add to list
+                                            var content = "<li><h2>擦肩:" + passby_username + "</h2>" +
+                                                "<p>" + passby_user_status + "</p></li>";
+                                            $("#passby_people_list").prepend(content);
+                                        }
+                                    }).fail(function(data) {
+                                        console.log("Failed to post passby user data");
+                                    })
+                                }
+                            }
+                            // refresh listview
+                            $('ul').listview().listview('refresh');
+                        }
+                        data_fetched = true;
+                    }).fail(function(data) {
+                        console.log("Failed");
+                        data_fetched = true;
+                    })
+
+                } else { // data not fetched, so we are fetching data now
+                    return;
                 }
-                getLocation();
-                setInterval(function(){
-                        if(data_fetched === true){
-                            getLocation(); // update location
-                        }
-                        else{
-                            // do nothing
-                        }
-                    }, 10000); // update every 10 seconds
-                
-            })             
-        }                 
-    </script>
-    <script src="js/change_status.js"></script>
+            }, 5000);
+
+        })
+    }
+</script>
+<script src="js/change_status.js"></script>
+
 </html>
