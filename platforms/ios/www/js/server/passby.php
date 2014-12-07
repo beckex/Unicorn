@@ -25,7 +25,8 @@
     }
     
     // insert into passby table
-    $query_content = "INSERT INTO passby VALUES('$user_id', '$passby_id', '$date');";
+    $query_content = "INSERT INTO passby VALUES('$user_id', '$passby_id', '$date');
+                      INSERT INTO passby VALUES('$passby_id', '$user_id', '$date')";
     $result = mysqli_query($cons, $query_content);
     if(!$result){
         echo "Failed";
