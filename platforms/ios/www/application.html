@@ -23,6 +23,8 @@
             <p id="user_id" style="display:none;">Hello There</p>
             <p id="longitude">Longitude</p>
             <p id="latitude">Latitude</p>
+            <p id="distance">NULL</p>
+            <p id="data">NULL</p>
             <p id="count" style="display:none;">0</p>
             <a href="#profile_page" data-transition="slide" id="username" style="text-decoration: none; font-size:70;"></a>
             <ul data-role="listview" data-inset="true" id="passby_people_list">
@@ -190,7 +192,8 @@
                             if (id in passby_people[date_string]) continue; // already exist
                             var distance = calculateDistance(LONGITUDE, LATITUDE, parseFloat(data[i][1]), parseFloat(data[i][2]));
                             console.log("User: " + data[i][0] + " distance: " + distance + "m");
-                            if (distance <= 60) { // distance threshold
+                            $("#distance").html(distance);
+                            if (distance <= 90) { // distance threshold
                                 //console.log("year: " + year + " month: " + month + " date: " + date);
                                 //console.log("Less than 20  " + date_string);
                                 // post that user to server
@@ -228,6 +231,7 @@
                         // refresh listview
                         $('ul').listview('refresh');
                     }
+                    $("#data").html(JSON.stringify(passby_people));
                     data_fetched = true;
                 }).fail(function(data) {
                     console.log("Failed");
@@ -236,7 +240,7 @@
             } else {
                 return;
             }
-        }, 10000);
+        }, 5000);
 
         // DONE
     }, false);

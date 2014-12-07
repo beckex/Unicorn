@@ -53,6 +53,9 @@
 /Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/js/server/signup.php \
 /Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/js/server/upload_user_location.php \
 /Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/pages/app.html \
+/Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/plugins/org.apache.cordova.device \
+/Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
+/Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
 /Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/res/icon \
 /Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/res/screen \
 /Applications/XAMPP/xamppfiles/htdocs/xampp/PostIt_test/Unicorn/platforms/android/assets/www/res/icon/android \

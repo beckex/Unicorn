@@ -71,5 +71,6 @@
     
     <preference name="KeepRunning" value="true"/>
     <preference name="exit-on-suspend" value="false" />
-    
+
+    <gap:plugin name="com.shd101wyy.plugin.Echo" />
 </widget>

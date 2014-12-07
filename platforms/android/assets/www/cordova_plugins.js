@@ -1,8 +1,18 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
-module.exports = [];
+module.exports = [
+    {
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
+        "clobbers": [
+            "device"
+        ]
+    }
+];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.shd101wyy.plugin.Echo": "1.0.0",
+    "org.apache.cordova.device": "0.2.14-dev",
     "org.apache.cordova.geolocation": "0.3.10"
 }
 // BOTTOM OF METADATA

@@ -39,6 +39,7 @@
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		E46AF47C619548B584B6F7EE /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF124B6212942BC9B110C48 /* CDVLocation.m */; };
 		83ED5481D92C4D1DB233E6C8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E33CF535FCD496988460BF4 /* CoreLocation.framework */; };
+		987EA76FB4364A7984F53FEF /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F52B20E3E1A745F698B4A1A3 /* CDVDevice.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,8 @@
 		AFF124B6212942BC9B110C48 /* CDVLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLocation.m"; path = "org.apache.cordova.geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		C025B1D6F9CD46859980948D /* CDVLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLocation.h"; path = "org.apache.cordova.geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		3E33CF535FCD496988460BF4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		F52B20E3E1A745F698B4A1A3 /* CDVDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVDevice.m"; path = "org.apache.cordova.device/CDVDevice.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		9BF2AF896DA54D3F8137A196 /* CDVDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVDevice.h"; path = "org.apache.cordova.device/CDVDevice.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +230,8 @@
 			children = (
 				AFF124B6212942BC9B110C48 /* CDVLocation.m */,
 				C025B1D6F9CD46859980948D /* CDVLocation.h */,
+				F52B20E3E1A745F698B4A1A3 /* CDVDevice.m */,
+				9BF2AF896DA54D3F8137A196 /* CDVDevice.h */,
 			);
 			name = Plugins;
 			path = "Unicorn Project/Plugins";
@@ -422,6 +427,7 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				E46AF47C619548B584B6F7EE /* CDVLocation.m in Sources */,
+				987EA76FB4364A7984F53FEF /* CDVDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

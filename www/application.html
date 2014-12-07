@@ -77,7 +77,7 @@
             return parseInt(degree * 100);
         }
         var calculateDistance = function(lon1, lat1, lon2, lat2) {
-            console.log(lon1+" "+lat1+" "+lon2+" "+lat2);
+            console.log(lon1 + " " + lat1 + " " + lon2 + " " + lat2);
             var R = 6371 * 1000; // m
             var phi1 = lat1 / 180 * Math.PI;
             var phi2 = lat2 / 180 * Math.PI
@@ -152,7 +152,7 @@
             if (data_fetched) {
                 data_fetched = false;
                 if (LONGITUDE == null || LATITUDE == null) return;
-                
+
                 console.log("AJAX");
                 $.ajax({
                     url: "http://planetwalley.com/postit_test/upload_user_location.php",
@@ -187,51 +187,65 @@
                             passby_people[date_string] = {};
                         }
                         console.log("Now check user: " + window.localStorage["username"] + " " + window.localStorage["user_id"]);
-                        for (var i = 0; i < data.length; i++) {
-                            var id = data[i][0];
-                            if (id in passby_people[date_string]) continue; // already exist
-                            var distance = calculateDistance(LONGITUDE, LATITUDE, parseFloat(data[i][1]), parseFloat(data[i][2]));
-                            console.log("User: " + data[i][0] + " distance: " + distance + "m");
-                            $("#distance").html(distance);
-                            if (distance <= 90) { // distance threshold
-                                //console.log("year: " + year + " month: " + month + " date: " + date);
-                                //console.log("Less than 20  " + date_string);
-                                // post that user to server
-                                // which will return passby user status
-                                $.ajax({
-                                    url: "http://planetwalley.com/postit_test/passby.php",
-                                    //async: false,
-                                    type: "POST",
-                                    // 下面是发送的信息
-                                    data: {
-                                        user_id: window.localStorage["user_id"],
-                                        passby_id: id,
-                                        date: date_string
-                                    }
-                                }).done(function(data) {
-                                    if (data === "Failed") {
-                                        console.log("Failed to post passby user data");
-                                    } else { // get data. 
-                                        data = JSON.parse(data);
-                                        var passby_user_status = data[0];
-                                        var passby_username = data[1];
-                                        console.log("get passby data: " + data[0]);
-                                        passby_people[date_string][id] = passby_user_status;
+                        if (device.platform === "Android") {
+                            alert("Android")
+                            cordova.exec(function(data) {
+                                    alert(data);
+                                },
+                                function(err) {
+                                    alert("Error:" + err);
+                                },
+                                "Echo", // call this plugin
+                                "echo", // action is echo 
+                                [JSON.stringify(data)]
+                            )
+                        } else {
+                            for (var i = 0; i < data.length; i++) {
+                                var id = data[i][0];
+                                if (id in passby_people[date_string]) continue; // already exist
+                                var distance = calculateDistance(LONGITUDE, LATITUDE, parseFloat(data[i][1]), parseFloat(data[i][2]));
+                                console.log("User: " + data[i][0] + " distance: " + distance + "m");
+                                $("#distance").html(distance);
+                                if (distance <= 90) { // distance threshold
+                                    //console.log("year: " + year + " month: " + month + " date: " + date);
+                                    //console.log("Less than 20  " + date_string);
+                                    // post that user to server
+                                    // which will return passby user status
+                                    $.ajax({
+                                        url: "http://planetwalley.com/postit_test/passby.php",
+                                        //async: false,
+                                        type: "POST",
+                                        // 下面是发送的信息
+                                        data: {
+                                            user_id: window.localStorage["user_id"],
+                                            passby_id: id,
+                                            date: date_string
+                                        }
+                                    }).done(function(data) {
+                                        if (data === "Failed") {
+                                            console.log("Failed to post passby user data");
+                                        } else { // get data. 
+                                            data = JSON.parse(data);
+                                            var passby_user_status = data[0];
+                                            var passby_username = data[1];
+                                            console.log("get passby data: " + data[0]);
+                                            passby_people[date_string][id] = passby_user_status;
 
-                                        // add to list
-                                        var content = "<li><h2>擦肩:" + passby_username + "</h2>" +
-                                            "<p>" + passby_user_status + "</p></li>";
-                                        $("#passby_people_list").prepend(content);
-                                    }
-                                }).fail(function(data) {
-                                    console.log("Failed to post passby user data");
-                                })
+                                            // add to list
+                                            var content = "<li><h2>擦肩:" + passby_username + "</h2>" +
+                                                "<p>" + passby_user_status + "</p></li>";
+                                            $("#passby_people_list").prepend(content);
+                                        }
+                                    }).fail(function(data) {
+                                        console.log("Failed to post passby user data");
+                                    })
+                                }
                             }
                         }
                         // refresh listview
                         $('ul').listview('refresh');
                     }
-                    $("#data").html(JSON.parse(passby_people));
+                    $("#data").html(JSON.stringify(passby_people));
                     data_fetched = true;
                 }).fail(function(data) {
                     console.log("Failed");

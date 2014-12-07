@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    id="com.shd101wyy.plugin.Echo"
+    version="1.0.0">
+
+    <description>Cordova Device Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,device</keywords>
+    <description>
+        Echo Plugin for Steroids.js
+    </description>
+  
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Echo" >
+                <param name="android-package" value="com.shd101wyy.plugin.Echo"/>
+            </feature>
+        </config-file>
+      
+        <source-file src="src/Echo.java" target-dir="src/com/shd101wyy/plugin" />
+    </platform>
+
+</plugin>

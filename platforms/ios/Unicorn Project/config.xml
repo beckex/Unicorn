@@ -22,6 +22,11 @@
     <feature name="Geolocation">
         <param name="ios-package" value="CDVLocation" />
     </feature>
+    <feature name="Device">
+        <param name="ios-package" value="CDVDevice" />
+    </feature>
+    <plugins>
+    </plugins>
     <name>Unicorn Project</name>
     <description>
         Hello World sample application that responds to the deviceready event.
@@ -91,4 +96,5 @@
     <access origin="*" />
     <preference name="KeepRunning" value="true" />
     <preference name="exit-on-suspend" value="false" />
+    <gap:plugin name="com.appgyver.plugin.Echo" />
 </widget>

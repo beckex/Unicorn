@@ -25,8 +25,7 @@
     }
     
     // insert into passby table
-    $query_content = "INSERT INTO passby VALUES('$user_id', '$passby_id', '$date');
-                      INSERT INTO passby VALUES('$passby_id', '$user_id', '$date')";
+    $query_content = "INSERT INTO passby VALUES('$user_id', '$passby_id', '$date');";
     $result = mysqli_query($cons, $query_content);
     if(!$result){
         echo "Failed";
@@ -40,6 +39,7 @@
         echo "Failed";
         exit;
     }
+
     if(mysqli_num_rows($result) == 1){ // fetch passby user status
         $status = mysqli_fetch_array($result, MYSQLI_NUM);
         $status = $status[0];
