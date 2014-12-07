@@ -191,7 +191,7 @@
                             if (id in passby_people[date_string]) continue; // already exist
                             var distance = calculateDistance(LONGITUDE, LATITUDE, parseFloat(data[i][1]), parseFloat(data[i][2]));
                             console.log("User: " + data[i][0] + " distance: " + distance + "m");
-                            if (distance <= 100) {
+                            if (distance <= 60) { // distance threshold
                                 //console.log("year: " + year + " month: " + month + " date: " + date);
                                 //console.log("Less than 20  " + date_string);
                                 // post that user to server
