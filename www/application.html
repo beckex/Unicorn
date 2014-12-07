@@ -188,19 +188,53 @@
                         }
                         console.log("Now check user: " + window.localStorage["username"] + " " + window.localStorage["user_id"]);
                         if (device.platform === "Android") {
-                            var pass_data = [window.localStorage["user_id"], LONGITUDE, LATITUDE];         // ["user_id", longitude, latitude, "user_id", longitude, latitude ... ]
-                            for(var i = 0; i < data.length; i++){
+                            var pass_data = [1, window.localStorage["user_id"], LONGITUDE, LATITUDE]; // ["data_num", "user_id", longitude, latitude, "user_id", longitude, latitude ... ]
+                            for (var i = 0; i < data.length; i++) {
                                 var id = data[i][0];
-                                if(id in passby_people[date_string]) continue; // already exist
-                                else{
+                                if (id in passby_people[date_string]) continue; // already exist
+                                else {
                                     pass_data.push(id);
                                     pass_data.push(data[i][1]);
                                     pass_data.push(data[i][2]);
+                                    (pass_data[0])++; // increase data num
                                 }
                             }
-                            
+
                             cordova.exec(function(data) {
-                                    alert(data);
+                                    // alert(data + "   type: " + typeof(data) + " " + data.length);
+                                    var users_id = data; //JSON.parse(data);
+                                    // alert(users_id.length);
+                                    for (var i = 0; i < users_id.length; i++) {
+                                        var id = users_id[i];
+                                        $.ajax({
+                                            url: "http://planetwalley.com/postit_test/passby.php",
+                                            //async: false,
+                                            type: "POST",
+                                            // 下面是发送的信息
+                                            data: {
+                                                user_id: window.localStorage["user_id"],
+                                                passby_id: id,
+                                                date: date_string
+                                            }
+                                        }).done(function(data) {
+                                            if (data === "Failed") {
+                                                console.log("Failed to post passby user data");
+                                            } else { // get data. 
+                                                data = JSON.parse(data);
+                                                var passby_user_status = data[0];
+                                                var passby_username = data[1];
+                                                console.log("get passby data: " + data[0]);
+                                                passby_people[date_string][id] = passby_user_status;
+
+                                                // add to list
+                                                var content = "<li><h2>擦肩:" + passby_username + "</h2>" +
+                                                    "<p>" + passby_user_status + "</p></li>";
+                                                $("#passby_people_list").prepend(content);
+                                            }
+                                        }).fail(function(data) {
+                                            console.log("Failed to post passby user data");
+                                        })
+                                    }
                                 },
                                 function(err) {
                                     alert("Error:" + err);
