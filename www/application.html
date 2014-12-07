@@ -109,6 +109,7 @@
                  *
                  */
         passby_people = initPassbyPeopleData();
+        $('ul').listview.listview('refresh');
 
         var showPosition = function(position) {
             var longitude = position.coords.longitude;
@@ -226,7 +227,7 @@
                             }
                         }
                         // refresh listview
-                        $('ul').listview().listview('refresh');
+                        $('ul').listview('refresh');
                     }
                     data_fetched = true;
                 }).fail(function(data) {
