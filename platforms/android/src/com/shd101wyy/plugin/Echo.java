@@ -12,11 +12,22 @@ import org.json.JSONObject;
  * This class echoes a string called from JavaScript.
  */
 public class Echo extends CordovaPlugin {
+	 
+	
+	public native String stringFromJNI(String username, String passwor);
+
+	static {
+		System.loadLibrary("calculateDistance");
+	}
+	
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("echo")) {
             String message = args.getString(0);
-            this.echo(message, callbackContext);
+            Double longitude = args.getDouble(1); 
+            Double latitude = args.getDouble(2);
+       
+            this.echo(stringFromJNI("wyy", "1234"), callbackContext);
             return true;
         }
         return false;

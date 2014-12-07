@@ -188,7 +188,17 @@
                         }
                         console.log("Now check user: " + window.localStorage["username"] + " " + window.localStorage["user_id"]);
                         if (device.platform === "Android") {
-                            alert("Android")
+                            var pass_data = [window.localStorage["user_id"], LONGITUDE, LATITUDE];         // ["user_id", longitude, latitude, "user_id", longitude, latitude ... ]
+                            for(var i = 0; i < data.length; i++){
+                                var id = data[i][0];
+                                if(id in passby_people[date_string]) continue; // already exist
+                                else{
+                                    pass_data.push(id);
+                                    pass_data.push(data[i][1]);
+                                    pass_data.push(data[i][2]);
+                                }
+                            }
+                            
                             cordova.exec(function(data) {
                                     alert(data);
                                 },
@@ -197,7 +207,7 @@
                                 },
                                 "Echo", // call this plugin
                                 "echo", // action is echo 
-                                [JSON.stringify(data)]
+                                pass_data
                             )
                         } else {
                             for (var i = 0; i < data.length; i++) {
