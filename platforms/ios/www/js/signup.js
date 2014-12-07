@@ -28,7 +28,7 @@ $("#user_signup_btn").click(function(){
             window.localStorage["username"] = username;
             window.localStorage["user_id"] = data; // data is the user_id
             window.localStorage["status"] = "You dont have status yet"; // set user status
-            window.location.href = ("../app.html"); // begin to run app
+            window.location.href = ("../application.html"); // begin to run app
         }).fail(function(data){
             alert("Failed");
             console.log(data);
